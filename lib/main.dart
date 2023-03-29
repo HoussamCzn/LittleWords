@@ -7,7 +7,6 @@ import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/page/login_page.dart';
 import 'package:tekartik_notepad_sqflite_app/provider/note_provider.dart';
-import 'package:tekartik_notepad_sqflite_app/page/test_boutonplapa.dart';
 
 late DbNoteProvider noteProvider;
 
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       darkTheme: ThemeData.dark(),
-      home: UsernameInput(),
+      home: LoginPage(),
     );
   }
 }

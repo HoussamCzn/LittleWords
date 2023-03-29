@@ -9,15 +9,15 @@ import 'package:tekartik_notepad_sqflite_app/page/test_boutonplapa.dart';
 // import 'package:tekartik_notepad_sqflite_app/page/edit_page.dart';
 // import 'package:tekartik_notepad_sqflite_app/page/note_page.dart';
 
-class UsernameInput extends StatefulWidget {
-  const UsernameInput({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _UsernameInputState createState() => _UsernameInputState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _UsernameInputState extends State<UsernameInput> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
 
