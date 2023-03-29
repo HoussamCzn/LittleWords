@@ -66,11 +66,7 @@ class DbNoteProvider {
 
   Future<DbNote?> getNote(int? id) async {
     var list = (await db!.query(tableWords,
-        columns: [
-          columnId,
-          username,
-          word
-        ],
+        columns: [columnId, username, word],
         where: '$columnId = ?',
         whereArgs: <Object?>[id]));
     if (list.isNotEmpty) {
@@ -82,11 +78,14 @@ class DbNoteProvider {
   Future _createDb(Database db) async {
     await db.execute('DROP TABLE If EXISTS $tableWords');
     await db.execute(
-        'CREATE TABLE $tableWords($columnId INTEGER PRIMARY KEY, $username TEXT, $word TEXT)');
+        'CREATE TABLE $tableWords($columnId INTEGER PRIMARY KEY, $username TEXT, $word TEXT,$date TEXT)');
     await db.execute('CREATE INDEX NotesUpdated ON $tableWords ($date)');
     await _saveNote(
         db,
-        DbNote());
+        DbNote()
+          ..usernameField.v = ' erger'
+          ..wordField.v = 'srgher'
+          ..dateField.v = DateTime.now().millisecondsSinceEpoch);
 
     _triggerUpdate();
   }
@@ -112,8 +111,8 @@ class DbNoteProvider {
   }
 
   Future<void> deleteNote(int? id) async {
-    await db!.delete(tableWords,
-        where: '$columnId = ?', whereArgs: <Object?>[id]);
+    await db!
+        .delete(tableWords, where: '$columnId = ?', whereArgs: <Object?>[id]);
     _triggerUpdate();
   }
 

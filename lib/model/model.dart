@@ -5,8 +5,8 @@ import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
 class DbNote extends DbRecord {
   final usernameField = CvField<String>(username);
   final wordField = CvField<String>(word);
+  final dateField = CvField<int>(date);
 
   @override
-  List<CvField> get fields =>
-      [id, usernameField, wordField];
+  List<CvField> get fields => [id, usernameField, wordField, dateField];
 }
