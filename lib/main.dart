@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
-import 'package:tekartik_notepad_sqflite_app/page/list_page.dart';
+import 'package:tekartik_notepad_sqflite_app/page/login_page.dart';
 import 'package:tekartik_notepad_sqflite_app/provider/note_provider.dart';
 
 late DbNoteProvider noteProvider;
