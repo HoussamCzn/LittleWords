@@ -18,22 +18,26 @@ class EditNotePage extends StatefulWidget {
 class _EditNotePageState extends State<EditNotePage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController? _lastNameTextController;
-  TextEditingController? _firstNameTextController;
-  TextEditingController? _phoneTextController;
-  TextEditingController? _addressTextController;
+  TextEditingController? _messageTextController;
+
+  // TextEditingController? _firstNameTextController;
+  // TextEditingController? _phoneTextController;
+  // TextEditingController? _addressTextController;
 
   int? get _noteId => widget.initialNote?.id.v;
   @override
   void initState() {
     super.initState();
     _lastNameTextController =
-        TextEditingController(text: widget.initialNote?.noteLastName.v);
-    _firstNameTextController =
-        TextEditingController(text: widget.initialNote?.noteFirstName.v);
-    _phoneTextController =
-        TextEditingController(text: widget.initialNote?.notePhone.v);
-    _addressTextController =
-        TextEditingController(text: widget.initialNote?.noteAddress.v);
+        TextEditingController(text: widget.initialNote?.usernameField.v);
+    _messageTextController =
+        TextEditingController(text: widget.initialNote?.wordField.v);
+    // _firstNameTextController =
+    //     TextEditingController(text: widget.initialNote?.noteFirstName.v);
+    // _phoneTextController =
+    //     TextEditingController(text: widget.initialNote?.notePhone.v);
+    // _addressTextController =
+    //     TextEditingController(text: widget.initialNote?.noteAddress.v);
   }
 
   Future save() async {
@@ -41,11 +45,8 @@ class _EditNotePageState extends State<EditNotePage> {
       _formKey.currentState!.save();
       await noteProvider.saveNote(DbNote()
         ..id.v = _noteId
-        ..noteLastName.v = _lastNameTextController!.text
-        ..noteFirstName.v = _firstNameTextController!.text
-        ..noteDate.v = DateTime.now().millisecondsSinceEpoch
-        ..notePhone.v = _phoneTextController!.text
-        ..noteAddress.v = _addressTextController!.text);
+        ..usernameField.v = _lastNameTextController!.text
+        ..usernameField.v = _messageTextController!.text);
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
       if (_noteId != null) {
@@ -67,10 +68,10 @@ class _EditNotePageState extends State<EditNotePage> {
       onWillPop: () async {
         var dirty = false;
         if (_lastNameTextController!.text !=
-            widget.initialNote?.noteLastName.v) {
+            widget.initialNote?.usernameField.v) {
           dirty = true;
-        } else if (_firstNameTextController!.text !=
-            widget.initialNote?.noteFirstName.v) {
+        } else if (_messageTextController!.text !=
+            widget.initialNote?.wordField.v) {
           dirty = true;
         }
         if (dirty) {
@@ -149,41 +150,41 @@ class _EditNotePageState extends State<EditNotePage> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'First name',
+                          labelText: 'message',
                           border: OutlineInputBorder(),
                         ),
-                        controller: _firstNameTextController,
+                        controller: _messageTextController,
                         validator: (val) => val!.isNotEmpty
                             ? null
-                            : 'First name must not be empty',
+                            : 'message must not be empty',
                       ),
                       SizedBox(
                         height: 16,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Phone number',
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: _phoneTextController,
-                        validator: (val) =>
-                            val!.isNotEmpty && validatePhoneNumber(val)
-                                ? null
-                                : 'Not a valid phone number',
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Address',
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: _addressTextController,
-                        validator: (val) => val!.isNotEmpty
-                            ? null
-                            : 'Address must not be empty',
-                      ),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Phone number',
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   controller: _phoneTextController,
+                      //   validator: (val) =>
+                      //       val!.isNotEmpty && validatePhoneNumber(val)
+                      //           ? null
+                      //           : 'Not a valid phone number',
+                      // ),
+                      // SizedBox(
+                      //   height: 16,
+                      // ),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Address',
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   controller: _addressTextController,
+                      //   validator: (val) => val!.isNotEmpty
+                      //       ? null
+                      //       : 'Address must not be empty',
+                      // ),
                     ]))
           ]),
         ),

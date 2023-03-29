@@ -25,11 +25,6 @@ class _NotePageState extends State<NotePage> {
       stream: noteProvider.onNote(widget.noteId),
       builder: (context, snapshot) {
         var note = snapshot.data;
-        void call() {
-          if (note != null) {
-            FlutterPhoneDirectCaller.callNumber(note.notePhone.v!);
-          }
-        }
 
         void edit() {
           if (note != null) {
@@ -44,22 +39,22 @@ class _NotePageState extends State<NotePage> {
         return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Contact details',
+                'Word details',
               ),
               actions: <Widget>[
                 if (note != null)
+                  // IconButton(
+                  //   icon: Icon(Icons.call),
+                  //   onPressed: () {
+                  //     call();
+                  //   },
+                  // ),
                   IconButton(
-                    icon: Icon(Icons.call),
+                    icon: Icon(Icons.edit),
                     onPressed: () {
-                      call();
+                      edit();
                     },
                   ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    edit();
-                  },
-                ),
               ],
             ),
             body: (note == null)
@@ -68,18 +63,16 @@ class _NotePageState extends State<NotePage> {
                   )
                 : GestureDetector(
                     child: ListView(children: <Widget>[
-                      ListTile(title: Text(note.noteLastName.v ?? '')),
-                      ListTile(title: Text(note.noteFirstName.v ?? '')),
-                      ListTile(title: Text(note.notePhone.v ?? '')),
-                      ListTile(title: Text(note.noteAddress.v ?? '')),
+                      ListTile(title: Text(note.usernameField.v ?? '')),
+                      // ListTile(title: Text(note.noteFirstName.v ?? '')),
+                      // ListTile(title: Text(note.notePhone.v ?? '')),
+                      // ListTile(title: Text(note.noteAddress.v ?? '')),
                       SizedBox(
                         width: 50,
                         height: 500,
                         child: FlutterMap(
-                          options: MapOptions(
-                              center: LatLng(
-                                  note.noteLatitude.v!, note.noteLongitude.v!),
-                              zoom: 12),
+                          options: MapOptions(),
+                          // center: LatLng(54626.54, 494.112), zoom: 12),
                           nonRotatedChildren: [
                             AttributionWidget.defaultWidget(
                               source: 'OpenStreetMap contributors',
@@ -94,17 +87,17 @@ class _NotePageState extends State<NotePage> {
                             ),
                             MarkerLayer(
                               markers: [
-                                Marker(
-                                  point: LatLng(note.noteLatitude.v!,
-                                      note.noteLongitude.v!),
-                                  width: 80,
-                                  height: 80,
-                                  builder: (context) => Icon(
-                                    Icons.location_on,
-                                    color: Colors.purple,
-                                    size: 40.0,
-                                  ),
-                                ),
+                                // Marker(
+                                //   point: LatLng(note.noteLatitude.v!,
+                                //       note.noteLongitude.v!),
+                                //   width: 80,
+                                //   height: 80,
+                                //   builder: (context) => Icon(
+                                //     Icons.location_on,
+                                //     color: Colors.purple,
+                                //     size: 40.0,
+                                //   ),
+                                // ),
                               ],
                             )
                           ],
