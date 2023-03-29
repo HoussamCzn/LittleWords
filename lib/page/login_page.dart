@@ -18,39 +18,42 @@ class UsernameInput extends StatefulWidget {
 }
 
 class _UsernameInputState extends State<UsernameInput> {
+  final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Enter your username'),
-      ),
+        appBar: AppBar(
+          title: const Text('Authentication'),
+        ),
         body: Padding(
-          padding: const EdgeInsets.all(16.25),child: Column(
-      
-      children: <Widget>[
-        TextField(
-          controller: _usernameController,
-          decoration: InputDecoration(
-            labelText: 'Username',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {
-            _submitUsername();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => Testbouton(),
-              ),
-            );
-          },
-          child: Text('Submit'),
-        ),
-      ],
-    )));
+            padding: const EdgeInsets.all(16.25),
+            child: Column(
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                        labelText: 'Username', border: OutlineInputBorder()),
+                    validator: (value) =>
+                        value!.isEmpty ? 'Username is required' : null,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _submitUsername();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Testbouton()));
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
+            )));
   }
 
   Future<void> _submitUsername() async {
