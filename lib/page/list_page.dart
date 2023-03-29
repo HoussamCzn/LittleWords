@@ -7,11 +7,8 @@ import 'package:flutter/material.dart';
 // import 'package:tekartik_notepad_sqflite_app/page/edit_page.dart';
 // import 'package:tekartik_notepad_sqflite_app/page/note_page.dart';
 
-
-
-
 class UsernameInput extends StatefulWidget {
-  const UsernameInput({super.key});
+  const UsernameInput({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -23,13 +20,17 @@ class _UsernameInputState extends State<UsernameInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Enter your username'),
+      ),
+        body: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         TextField(
           controller: _usernameController,
           decoration: InputDecoration(
-            labelText: 'Nom d\'utilisateur',
+            labelText: 'Username',
             border: OutlineInputBorder(),
           ),
           onSubmitted: (_) => _submitUsername(),
@@ -37,10 +38,10 @@ class _UsernameInputState extends State<UsernameInput> {
         SizedBox(height: 16),
         ElevatedButton(
           onPressed: _submitUsername,
-          child: Text('Entrer'),
+          child: Text('Enter'),
         ),
       ],
-    );
+    ));
   }
 
   void _submitUsername() {

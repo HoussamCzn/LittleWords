@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       darkTheme: ThemeData.dark(),
-      home: NoteListPage(),
+      home: UsernameInput(),
     );
   }
 }
