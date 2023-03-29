@@ -24,8 +24,9 @@ class _UsernameInputState extends State<UsernameInput> {
       appBar: AppBar(
         title: Text('Enter your username'),
       ),
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: Padding(
+          padding: const EdgeInsets.all(16.25),child: Column(
+      
       children: <Widget>[
         TextField(
           controller: _usernameController,
@@ -38,10 +39,10 @@ class _UsernameInputState extends State<UsernameInput> {
         SizedBox(height: 16),
         ElevatedButton(
           onPressed: _submitUsername,
-          child: Text('Enter'),
+          child: Text('Submit'),
         ),
       ],
-    ));
+    )));
   }
 
   void _submitUsername() {
