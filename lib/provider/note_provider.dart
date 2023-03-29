@@ -65,16 +65,11 @@ class DbNoteProvider {
       });
 
   Future<DbNote?> getNote(int? id) async {
-    var list = (await db!.query(tableContacts,
+    var list = (await db!.query(tableWords,
         columns: [
           columnId,
-          lastName,
-          firstName,
-          date,
-          phone,
-          address,
-          latitude,
-          longitude
+          username,
+          word
         ],
         where: '$columnId = ?',
         whereArgs: <Object?>[id]));
@@ -85,20 +80,13 @@ class DbNoteProvider {
   }
 
   Future _createDb(Database db) async {
-    await db.execute('DROP TABLE If EXISTS $tableContacts');
+    await db.execute('DROP TABLE If EXISTS $tableWords');
     await db.execute(
-        'CREATE TABLE $tableContacts($columnId INTEGER PRIMARY KEY, $lastName TEXT, $firstName TEXT, $date INTEGER, $phone TEXT, $address TEXT, $latitude DOUBLE, $longitude DOUBLE)');
-    await db.execute('CREATE INDEX NotesUpdated ON $tableContacts ($date)');
+        'CREATE TABLE $tableWords($columnId INTEGER PRIMARY KEY, $username TEXT, $word TEXT)');
+    await db.execute('CREATE INDEX NotesUpdated ON $tableWords ($date)');
     await _saveNote(
         db,
-        DbNote()
-          ..noteLastName.v = 'CUMZAIN'
-          ..noteFirstName.v = 'Houssam'
-          ..noteDate.v = DateTime.now().millisecondsSinceEpoch
-          ..notePhone.v = '+33661505054'
-          ..noteAddress.v = '420 Rue Raymond Telly'
-          ..noteLatitude.v = 51.0171447
-          ..noteLongitude.v = 2.3349419);
+        DbNote());
 
     _triggerUpdate();
   }
@@ -110,24 +98,11 @@ class DbNoteProvider {
   Future<String> fixPath(String path) async => path;
 
   Future _saveNote(DatabaseExecutor? db, DbNote updatedNote) async {
-    var locations =
-        await locationFromAddress((updatedNote.noteAddress.v) as String);
-    updatedNote.noteLatitude.v = locations[0].latitude;
-    updatedNote.noteLongitude.v = locations[0].longitude;
-    updatedNote.noteLastName.v = updatedNote.noteLastName.v?.toUpperCase();
-    if (updatedNote.noteFirstName.v != null) {
-      updatedNote.noteFirstName.v =
-          updatedNote.noteFirstName.v![0].toUpperCase() +
-              updatedNote.noteFirstName.v!.substring(1);
-    }
-    if (updatedNote.notePhone.v != null) {
-      updatedNote.notePhone.v = updatedNote.notePhone.v!.replaceAll(' ', '');
-    }
     if (updatedNote.id.v != null) {
-      await db!.update(tableContacts, updatedNote.toMap(),
+      await db!.update(tableWords, updatedNote.toMap(),
           where: '$columnId = ?', whereArgs: <Object?>[updatedNote.id.v]);
     } else {
-      updatedNote.id.v = await db!.insert(tableContacts, updatedNote.toMap());
+      updatedNote.id.v = await db!.insert(tableWords, updatedNote.toMap());
     }
   }
 
@@ -137,7 +112,7 @@ class DbNoteProvider {
   }
 
   Future<void> deleteNote(int? id) async {
-    await db!.delete(tableContacts,
+    await db!.delete(tableWords,
         where: '$columnId = ?', whereArgs: <Object?>[id]);
     _triggerUpdate();
   }
@@ -202,8 +177,8 @@ class DbNoteProvider {
 
   Future<DbNotes> getListNotes(
       {int? offset, int? limit, bool? descending}) async {
-    var list = (await db!.query(tableContacts,
-        columns: [columnId, lastName, firstName, phone, address],
+    var list = (await db!.query(tableWords,
+        columns: [columnId, username, word],
         orderBy: '$date ${(descending ?? false) ? 'ASC' : 'DESC'}',
         limit: limit,
         offset: offset));
@@ -211,7 +186,7 @@ class DbNoteProvider {
   }
 
   Future clearAllNotes() async {
-    await db!.delete(tableContacts);
+    await db!.delete(tableWords);
     _triggerUpdate();
   }
 
