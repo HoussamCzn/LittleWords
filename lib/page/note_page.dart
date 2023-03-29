@@ -86,19 +86,19 @@ class _NotePageState extends State<NotePage> {
                               userAgentPackageName: 'com.example.app',
                             ),
                             MarkerLayer(
-                              markers: [
-                                // Marker(
-                                //   point: LatLng(note.noteLatitude.v!,
-                                //       note.noteLongitude.v!),
-                                //   width: 80,
-                                //   height: 80,
-                                //   builder: (context) => Icon(
-                                //     Icons.location_on,
-                                //     color: Colors.purple,
-                                //     size: 40.0,
-                                //   ),
-                                // ),
-                              ],
+                              // markers: [
+                              //   // Marker(
+                              //   //   point: LatLng(note.noteLatitude.v!,
+                              //   //       note.noteLongitude.v!),
+                              //   //   width: 80,
+                              //   //   height: 80,
+                              //   //   builder: (context) => Icon(
+                              //   //     Icons.location_on,
+                              //   //     color: Colors.purple,
+                              //   //     size: 40.0,
+                              //   //   ),
+                              //   // ),
+                              // ],
                             )
                           ],
                         ),
