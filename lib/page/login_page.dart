@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, directives_ordering
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tekartik_notepad_sqflite_app/page/test_boutonplapa.dart';
 // import 'package:tekartik_common_utils/common_utils_import.dart';
 // import 'package:tekartik_notepad_sqflite_app/main.dart';
 // import 'package:tekartik_notepad_sqflite_app/model/model.dart';
@@ -34,21 +36,28 @@ class _UsernameInputState extends State<UsernameInput> {
             labelText: 'Username',
             border: OutlineInputBorder(),
           ),
-          onSubmitted: (_) => _submitUsername(),
         ),
         SizedBox(height: 16),
         ElevatedButton(
-          onPressed: _submitUsername,
+          onPressed: () {
+            _submitUsername();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Testbouton(),
+              ),
+            );
+          },
           child: Text('Submit'),
         ),
       ],
     )));
   }
 
-  void _submitUsername() {
+  Future<void> _submitUsername() async {
     final username = _usernameController.text.trim();
     if (username.isNotEmpty) {
-      // Do something with the username
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
     }
   }
 
