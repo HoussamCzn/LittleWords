@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'edit_page.dart';
+
 class Testbouton extends StatefulWidget {
   const Testbouton({Key? key}) : super(key: key);
 
@@ -9,28 +11,23 @@ class Testbouton extends StatefulWidget {
 }
 
 class _TestboutonState extends State<Testbouton> {
-  
-
   void _showConfirmationDialog() {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) { 
+      builder: (BuildContext context) {
         return Container(
           height: 200,
           child: Column(
             children: [
-              
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  
                 },
                 child: Text("Jeter"),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  
                 },
                 child: Text("Detruire"),
               ),
@@ -41,8 +38,7 @@ class _TestboutonState extends State<Testbouton> {
     );
   }
 
-
-  // au lieu d'un Alertdialog je voudrais un Showmodalbottomsheet avec 2 boutons et un texte en dessous du texte j'ai un bouton qui ferme la fenetre 
+  // au lieu d'un Alertdialog je voudrais un Showmodalbottomsheet avec 2 boutons et un texte en dessous du texte j'ai un bouton qui ferme la fenetre
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,12 +56,19 @@ class _TestboutonState extends State<Testbouton> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _showConfirmationDialog,
-              child: Text("beton 2"),
+              child: Text("bouton 2"),
             ),
             SizedBox(height: 16),
-            
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return EditNotePage(initialNote: null);
+          }));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

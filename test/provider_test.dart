@@ -19,7 +19,7 @@ void main() {
       await provider.deleteDb();
       await provider.open();
       var first = await provider.onNotes().first;
-      expect(first.first!.noteLastName.v, 'Welcome to NotePad');
+      expect(first.first!.usernameField.v, 'Welcome to NotePad');
       await provider.close();
     });
     test('initial', () async {

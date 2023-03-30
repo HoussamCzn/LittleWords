@@ -16,120 +16,139 @@ class NoteListPage extends StatefulWidget {
 }
 
 class _NoteListPageState extends State<NoteListPage> {
-  Widget _deleteSingleContactDialog(BuildContext context, DbNote note) {
-    return AlertDialog(
-      icon: Icon(Icons.warning),
-      title: Text('Delete contact'),
-      content: Text('Are you sure you want to delete this contact ?'),
-      actions: [
-        TextButton(
-          child: Text('CANCEL'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          child: Text('DELETE'),
-          onPressed: () {
-            noteProvider.deleteNote(note.id.v!);
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _deleteSingleContactDialog(BuildContext context, DbNote note) {
+  //   return AlertDialog(
+  //     icon: Icon(Icons.warning),
+  //     title: Text('Delete contact'),
+  //     content: Text('Are you sure you want to delete this contact ?'),
+  //     actions: [
+  //       TextButton(
+  //         child: Text('CANCEL'),
+  //         onPressed: () {
+  //           Navigator.of(context).pop();
+  //         },
+  //       ),
+  //       TextButton(
+  //         child: Text('DELETE'),
+  //         onPressed: () {
+  //           noteProvider.deleteNote(note.id.v!);
+  //           Navigator.of(context).pop();
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget _deleteContactsDialog(BuildContext context) {
-    return AlertDialog(
-      icon: Icon(Icons.warning),
-      title: Text('Delete all contacts'),
-      content: Text('Are you sure you want to delete all your contacts ?'),
-      actions: [
-        TextButton(
-          child: Text('CANCEL'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          child: Text('DELETE'),
-          onPressed: () {
-            noteProvider.clearAllNotes();
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _deleteContactsDialog(BuildContext context) {
+  //   return AlertDialog(
+  //     icon: Icon(Icons.warning),
+  //     title: Text('Delete all contacts'),
+  //     content: Text('Are you sure you want to delete all your contacts ?'),
+  //     actions: [
+  //       TextButton(
+  //         child: Text('CANCEL'),
+  //         onPressed: () {
+  //           Navigator.of(context).pop();
+  //         },
+  //       ),
+  //       TextButton(
+  //         child: Text('DELETE'),
+  //         onPressed: () {
+  //           noteProvider.clearAllNotes();
+  //           Navigator.of(context).pop();
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
+  var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Address Book',
+    Widget page;
+    //  permet de constituer une page
+    switch (selectedIndex) {
+      case 0:
+        page = NotePage(
+          noteId: null,
+        );
+        break;
+      case 1:
+        page = NoteListPage();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Address Book',
+          ),
+
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.delete),
+          //     onPressed: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return _deleteContactsDialog(context);
+          //         },
+          //       );
+          //     },
+          //   )
+          // ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return _deleteContactsDialog(context);
-                },
+        body: StreamBuilder<List<DbNote?>>(
+          stream: noteProvider.onNotes(),
+          builder: (context, snapshot) {
+            var notes = snapshot.data;
+            if (notes == null) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            },
-          )
-        ],
-      ),
-      body: StreamBuilder<List<DbNote?>>(
-        stream: noteProvider.onNotes(),
-        builder: (context, snapshot) {
-          var notes = snapshot.data;
-          if (notes == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return ListView.builder(
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                var note = notes[index]!;
-                return ListTile(
-                  title: Text(
-                      '${note.usernameField.v ?? ''}  ${note.wordField.v ?? ''}'),
-                  // subtitle: note.noteFirstName.v?.isNotEmpty ?? false
-                  // ? Text(LineSplitter.split(note.wordField.v!).first)
-                  //     : null,
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return NotePage(
-                        noteId: note.id.v,
-                      );
-                    }));
-                  },
-                  onLongPress: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return _deleteSingleContactDialog(context, note);
-                      },
-                    );
-                  },
-                );
-              });
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return EditNotePage(initialNote: null);
-          }));
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+            }
+            return ListView.builder(
+                itemCount: notes.length,
+                itemBuilder: (context, index) {
+                  var note = notes[index]!;
+                  return ListTile(
+                    title: Text(
+                        '${note.usernameField.v ?? ''}  ${note.wordField.v ?? ''}'),
+                    // subtitle: note.noteFirstName.v?.isNotEmpty ?? false
+                    // ? Text(LineSplitter.split(note.wordField.v!).first)
+                    //     : null,
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return NotePage(
+                          noteId: note.id.v,
+                        );
+                      }));
+                    },
+                    // onLongPress: () {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (context) {
+                    //       return _deleteSingleContactDialog(context, note);
+                    //     },
+                    //   );
+                    // },
+                  );
+                });
+          },
+        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        //       return EditNotePage(initialNote: null);
+        //     }));
+        //   },
+        //   child: Icon(Icons.add),
+        // ),
+      );
+    });
   }
 }

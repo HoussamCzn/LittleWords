@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
+import 'package:tekartik_notepad_sqflite_app/page/list_page.dart';
+import 'package:tekartik_notepad_sqflite_app/page/note_page.dart';
 
 class EditNotePage extends StatefulWidget {
   /// null when adding a note
@@ -32,12 +35,6 @@ class _EditNotePageState extends State<EditNotePage> {
         TextEditingController(text: widget.initialNote?.usernameField.v);
     _messageTextController =
         TextEditingController(text: widget.initialNote?.wordField.v);
-    // _firstNameTextController =
-    //     TextEditingController(text: widget.initialNote?.noteFirstName.v);
-    // _phoneTextController =
-    //     TextEditingController(text: widget.initialNote?.notePhone.v);
-    // _addressTextController =
-    //     TextEditingController(text: widget.initialNote?.noteAddress.v);
   }
 
   Future save() async {
@@ -56,8 +53,10 @@ class _EditNotePageState extends State<EditNotePage> {
     }
   }
 
+  var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Widget page;
     bool validatePhoneNumber(String phoneNumber) {
       final pattern = RegExp(r'^(\+?\d{1,3}[- ]?)?\d{9}$');
       final stripedNumber = phoneNumber.replaceAll(' ', '');
@@ -135,19 +134,19 @@ class _EditNotePageState extends State<EditNotePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Last name',
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: _lastNameTextController,
-                        validator: (val) => val!.isNotEmpty
-                            ? null
-                            : 'Last name must not be empty',
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Last name',
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   controller: _lastNameTextController,
+                      //   validator: (val) => val!.isNotEmpty
+                      //       ? null
+                      //       : 'Last name must not be empty',
+                      // ),
+                      // SizedBox(
+                      //   height: 16,
+                      // ),
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'message',
