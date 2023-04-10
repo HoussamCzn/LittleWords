@@ -1,4 +1,3 @@
-import 'package:geocoding/geocoding.dart';
 import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
