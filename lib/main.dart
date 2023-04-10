@@ -2,11 +2,13 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
-import 'package:tekartik_notepad_sqflite_app/page/login_page.dart';
-import 'package:tekartik_notepad_sqflite_app/provider/note_provider.dart';
+
+import 'page/login_page.dart';
+import 'provider/note_provider.dart';
 
 late DbNoteProvider noteProvider;
 
@@ -21,7 +23,7 @@ Future main() async {
 
   noteProvider = DbNoteProvider(databaseFactory);
   await noteProvider.ready;
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'AddressBook',
+      title: 'LittleWords',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple),
         brightness: Brightness.light,
