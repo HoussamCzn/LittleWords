@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, directives_ordering
 
 import 'package:flutter/material.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
+
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
-import 'package:tekartik_notepad_sqflite_app/page/note_page.dart';
-import 'package:tekartik_notepad_sqflite_app/page/test_boutonplapa.dart';
 
 class NoteListPage extends StatefulWidget {
   const NoteListPage({Key? key}) : super(key: key);
@@ -63,11 +61,6 @@ class _NoteListPageState extends State<NoteListPage> {
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Address Book',
-          ),
-        ),
         body: StreamBuilder<List<DbNote?>>(
           stream: noteProvider.onNotes(),
           builder: (context, snapshot) {
