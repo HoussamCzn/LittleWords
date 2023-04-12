@@ -26,13 +26,13 @@ class _NoteListPageState extends State<NoteListPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Jeter"),
+                child: Text('Jeter'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Detruire"),
+                child: Text('Detruire'),
               ),
             ],
           ),
@@ -75,7 +75,7 @@ class _NoteListPageState extends State<NoteListPage> {
                 itemBuilder: (context, index) {
                   var note = notes[index]!;
 
-                  // return Text("mot proche de toi");
+                  // return Text('mot proche de toi');
                   // style:
                   //     TextStyle(height: 20, fontWeight: FontWeight.bold));
 
