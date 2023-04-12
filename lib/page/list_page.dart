@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors, directives_ordering
+// ignore_for_file: prefer_const_constructors, directives_ordering, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-
+import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
+import 'package:tekartik_notepad_sqflite_app/utils/utils.dart';
 
 class NoteListPage extends StatefulWidget {
   const NoteListPage({Key? key}) : super(key: key);
@@ -14,51 +15,19 @@ class NoteListPage extends StatefulWidget {
 }
 
 class _NoteListPageState extends State<NoteListPage> {
-  void _showConfirmationDialog() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 200,
-          child: Column(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Jeter'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Detruire'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void _deleteNoteFromList(DbNote note) {
+  //   setState(() {
+  //     noteProvider.deleteNote(note.id);
+  //   });
+  // }
+
+  // void _showConfirmationDialog(DbNote note) {
+
+  // }
 
   var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    // Widget page;
-    //  permet de constituer une page
-    // switch (selectedIndex) {
-    //   case 0:
-    //     page = NotePage(
-    //       noteId: null,
-    //     );
-    //     break;
-    //   case 1:
-    //     page = NoteListPage();
-    //     break;
-    //   default:
-    //     throw UnimplementedError('no widget for $selectedIndex');
-    // }
-
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: StreamBuilder<List<DbNote?>>(
@@ -75,7 +44,7 @@ class _NoteListPageState extends State<NoteListPage> {
                 itemBuilder: (context, index) {
                   var note = notes[index]!;
 
-                  // return Text('mot proche de toi');
+                  // return Text("mot proche de toi");
                   // style:
                   //     TextStyle(height: 20, fontWeight: FontWeight.bold));
 
@@ -86,7 +55,35 @@ class _NoteListPageState extends State<NoteListPage> {
                     // ? Text(LineSplitter.split(note.wordField.v!).first)
                     //     : null,
                     onTap: () {
-                      _showConfirmationDialog();
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 200,
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Jeter"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(
+                                        context); // Ferme la boîte de dialogue modale
+                                    await noteProvider.deleteNote(
+                                        note.id.v); // Supprime la note
+                                    setState(
+                                        () {}); // Rafraîchit la liste des notes
+                                  },
+                                  child: Text("Detruire"),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                   );
                 });
