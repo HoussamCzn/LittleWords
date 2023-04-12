@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
 import '../beans/dto/word.dto.dart';
 import '../utils/utils.dart';
 
-class LittleWordCard extends StatelessWidget {
-  const LittleWordCard({Key? key, required this.word}) : super(key: key);
+class LittleWordBigCard extends StatelessWidget {
+  const LittleWordBigCard({Key? key, required this.word}) : super(key: key);
 
   final WordDTO word;
 
@@ -14,6 +15,7 @@ class LittleWordCard extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         return Container(
+          width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.all(8.0),
           child: Card(
             elevation: 0,
@@ -25,9 +27,24 @@ class LittleWordCard extends StatelessWidget {
               onTap: () {
                 saveWordToDatabase(context, ref, word);
               },
-              child: SizedBox(
-                width: 90,
-                child: Center(child: Text('#${word.uid.toString()}')),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
+                    const SizedBox(height: 8),
+                    Text(
+                      '#${word.uid.toString()}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Déposé par: ${word.author}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
