@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,46 +13,29 @@ import '../provider/words_around.provider.dart';
 
 void saveWordToDatabase(
     BuildContext context, WidgetRef ref, WordDTO word) async {
-  if (word.content != null) {
-    final dio = ref.read(dioProvider);
-    final url =
-        '/word?uid=${word.uid}&latitude=${word.latitude}&longitude=${word.longitude}';
-    final res = await dio.get(url);
-
-    if (res.statusCode != 200) {
-      const snackBar = SnackBar(
-        content: Text('Error occured: try again later'),
-      );
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  final dio = ref.read(dioProvider);
+  final url =
+      '/word?uid=${word.uid}&latitude=${word.latitude}&longitude=${word.longitude}';
+  final res = await dio.get(url).then((response) {
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load word');
     } else {
-      final note = DbNote()
-        ..usernameField.value = word.author
-        ..wordField.value = word.content
-        ..dateField.value = DateTime.now().millisecondsSinceEpoch;
-      await noteProvider.saveNote(note);
-      final snackBar = SnackBar(
-        content: const Text('Word added to the database'),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () async {
-            await noteProvider.deleteNote(note.id.value);
-          },
-        ),
-      );
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-      ref.invalidate(deviceLocationProvider);
-      ref.invalidate(wordsAroundProvider);
+      return response.data['data'];
     }
-  } else {
-    const snackBar = SnackBar(
-      content: Text('Error occured: word is ill-formed (null content)'),
-    );
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  });
+  final note = DbNote()
+    ..usernameField.value = res['author'].toString()
+    ..wordField.value = res['content'].toString()
+    ..dateField.value = DateTime.now().millisecondsSinceEpoch;
+
+  await noteProvider.saveNote(note);
+  const snackBar = SnackBar(
+    content: Text('Word added to the database'),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+  ref.invalidate(deviceLocationProvider);
+  ref.invalidate(wordsAroundProvider);
 }
 
 void submitWord(BuildContext context, WidgetRef ref, String text) async {
@@ -74,7 +59,6 @@ void submitWord(BuildContext context, WidgetRef ref, String text) async {
     const snackbar = SnackBar(
       content: Text('Word added !'),
     );
-    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   } else {
     final snackbar = SnackBar(
@@ -86,11 +70,9 @@ void submitWord(BuildContext context, WidgetRef ref, String text) async {
         },
       ),
     );
-    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-  // ignore: use_build_context_synchronously
   Navigator.pop(context);
 }
 
