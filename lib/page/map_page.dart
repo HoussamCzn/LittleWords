@@ -9,7 +9,6 @@ import '../widgets/little_words_list.widget.dart';
 import '../widgets/little_words_map.widget.dart';
 import '../widgets/refreshable_app_bar.widget.dart';
 import 'package:tekartik_notepad_sqflite_app/page/list_page.dart';
-import 'package:tekartik_notepad_sqflite_app/page/test_boutonplapa.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);

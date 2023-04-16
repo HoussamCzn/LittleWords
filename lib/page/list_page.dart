@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, directives_ordering, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
-import 'package:tekartik_notepad_sqflite_app/utils/utils.dart';
+import '../widgets/little_word_put_map_widget.dart';
 
 class NoteListPage extends StatefulWidget {
   const NoteListPage({Key? key}) : super(key: key);
@@ -15,17 +14,6 @@ class NoteListPage extends StatefulWidget {
 }
 
 class _NoteListPageState extends State<NoteListPage> {
-  // void _deleteNoteFromList(DbNote note) {
-  //   setState(() {
-  //     noteProvider.deleteNote(note.id);
-  //   });
-  // }
-
-  // void _showConfirmationDialog(DbNote note) {
-
-  // }
-
-  var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -44,16 +32,9 @@ class _NoteListPageState extends State<NoteListPage> {
                 itemBuilder: (context, index) {
                   var note = notes[index]!;
 
-                  // return Text("mot proche de toi");
-                  // style:
-                  //     TextStyle(height: 20, fontWeight: FontWeight.bold));
-
                   return ListTile(
                     title: Text(
                         '${note.usernameField.v ?? ''}  ${note.wordField.v ?? ''}'),
-                    // subtitle: note.noteFirstName.v?.isNotEmpty ?? false
-                    // ? Text(LineSplitter.split(note.wordField.v!).first)
-                    //     : null,
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -63,21 +44,22 @@ class _NoteListPageState extends State<NoteListPage> {
                             child: Column(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return const LittleWordPutMap();
+                                        });
                                   },
-                                  child: Text("Jeter"),
+                                  child: Text('Throw'),
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
-                                    Navigator.pop(
-                                        context); // Ferme la boîte de dialogue modale
-                                    await noteProvider.deleteNote(
-                                        note.id.v); // Supprime la note
-                                    setState(
-                                        () {}); // Rafraîchit la liste des notes
+                                    Navigator.pop(context);
+                                    await noteProvider.deleteNote(note.id.v);
+                                    setState(() {});
                                   },
-                                  child: Text("Detruire"),
+                                  child: Text('Delete'),
                                 ),
                               ],
                             ),
