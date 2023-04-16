@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-import '../beans/dto/word.dto.dart';
-import '../utils/utils.dart';
+import '../model/model.dart';
+import 'little_word_disposer_menu.widget.dart';
 
 class LittleWordBigCard extends StatelessWidget {
-  const LittleWordBigCard({Key? key, required this.word}) : super(key: key);
+  const LittleWordBigCard({Key? key, required this.uid, required this.note}) : super(key: key);
 
-  final WordDTO word;
+  final int uid;
+  final DbNote note;
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +25,29 @@ class LittleWordBigCard extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                saveWordToDatabase(context, ref, word);
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return LittleWordDisposerMenu(note: note);
+                    });
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     const SizedBox(height: 8),
                     Text(
-                      '#${word.uid.toString()}',
+                      '#${uid.toString()}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      note.wordField.v!,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Déposé par: ${word.author}',
+                      'Dropped by: ${note.usernameField.v}',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
