@@ -79,12 +79,6 @@ class DbNoteProvider {
     await db.execute(
         'CREATE TABLE $tableWords($columnId INTEGER PRIMARY KEY, $username TEXT, $word TEXT,$date TEXT)');
     await db.execute('CREATE INDEX NotesUpdated ON $tableWords ($date)');
-    await _saveNote(
-        db,
-        DbNote()
-          ..usernameField.v = ' erger'
-          ..wordField.v = 'srgher'
-          ..dateField.v = DateTime.now().millisecondsSinceEpoch);
 
     _triggerUpdate();
   }
