@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, directives_ordering, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:tekartik_notepad_sqflite_app/main.dart';
-import 'package:tekartik_notepad_sqflite_app/model/model.dart';
-import '../widgets/little_word_put_map_widget.dart';
+
+import '../main.dart';
+import '../model/model.dart';
+import '../widgets/little_word_big_card.widget.dart';
 
 class NoteListPage extends StatefulWidget {
   const NoteListPage({Key? key}) : super(key: key);
@@ -30,48 +31,10 @@ class _NoteListPageState extends State<NoteListPage> {
             return ListView.builder(
                 itemCount: notes.length,
                 itemBuilder: (context, index) {
-                  var note = notes[index]!;
-
-                  return ListTile(
-                    title: Text(
-                        '${note.usernameField.v ?? ''}  ${note.wordField.v ?? ''}'),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Container(
-                            height: 200,
-                            child: Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    await showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return LittleWordPutMap(
-                                              word: note.wordField.v ?? '');
-                                        });
-                                    Navigator.pop(context);
-                                    await noteProvider.deleteNote(note.id.v);
-                                    setState(() {});
-                                  },
-                                  child: Text('Throw'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                    await noteProvider.deleteNote(note.id.v);
-                                    setState(() {});
-                                  },
-                                  child: Text('Delete'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
+                  final note = notes[index];
+                  if (note != null) {
+                    return LittleWordBigCard(uid: index, note: note);
+                  }
                 });
           },
         ),
