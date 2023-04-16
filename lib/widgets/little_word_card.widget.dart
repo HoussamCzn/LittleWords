@@ -22,8 +22,14 @@ class LittleWordCard extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             child: InkWell(
-              onTap: () {
-                saveWordToDatabase(context, ref, word);
+              onTap: () async {
+                await saveWordToDatabase(context, ref, word).then((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Word saved to database'),
+                    ),
+                  );
+                });
               },
               child: SizedBox(
                 width: 90,
