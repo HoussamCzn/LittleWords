@@ -85,14 +85,3 @@ class FirstPage extends StatelessWidget {
     );
   }
 }
-
-// class SecondPage extends StatelessWidget {
-//   const SecondPage({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('Second Page'),
-//     );
-//   }
-// }

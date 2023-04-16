@@ -44,12 +44,16 @@ class _NoteListPageState extends State<NoteListPage> {
                             child: Column(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
+                                  onPressed: () async {
+                                    await showModalBottomSheet(
                                         context: context,
                                         builder: (context) {
-                                          return const LittleWordPutMap();
+                                          return LittleWordPutMap(
+                                              word: note.wordField.v ?? '');
                                         });
+                                    Navigator.pop(context);
+                                    await noteProvider.deleteNote(note.id.v);
+                                    setState(() {});
                                   },
                                   child: Text('Throw'),
                                 ),

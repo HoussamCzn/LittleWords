@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../page/list_page.dart';
 
 import '../utils/utils.dart';
 
 class LittleWordPutMap extends StatefulWidget {
-  const LittleWordPutMap({Key? key}) : super(key: key);
+  final String word;
+  const LittleWordPutMap({Key? key, required this.word}) : super(key: key);
 
   @override
   State<LittleWordPutMap> createState() => _LittleWordPutMapState();
@@ -30,7 +32,7 @@ class _LittleWordPutMapState extends State<LittleWordPutMap> {
                       submitWord(context, ref, wordController.text.trim());
                     }
                   },
-                  child: const Text('Throw'),
+                  child: Text('Throw'),
                 ),
               ],
             ),
