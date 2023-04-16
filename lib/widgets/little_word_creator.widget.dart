@@ -41,9 +41,23 @@ class _LittleWordCreatorState extends State<LittleWordCreator> {
                   },
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      submitWord(context, ref, wordController.text.trim());
+                      await submitWord(context, ref, wordController.text.trim())
+                          .then((value) {
+                        if (value) {
+                          const snackbar = SnackBar(
+                            content: Text('Word successfully shared !'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        } else {
+                          const snackbar = SnackBar(
+                            content: Text('Failure when sharing word !'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        }
+                        Navigator.pop(context);
+                      });
                     }
                   },
                   child: const Text('Share'),
